@@ -1,4 +1,4 @@
-function fx = LogisticF(data,x)
+function fx = LogRegF(data,x)
 y = data.y;
 A = data.X;
 n = size(y,1);

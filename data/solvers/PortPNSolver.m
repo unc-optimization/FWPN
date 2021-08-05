@@ -14,7 +14,6 @@ hist.nsize          = [n,p];
 
 s_deactive              = 0;
 time1                   = tic;
-hist.cumul_time(1)      = 0;
 fprintf(' Iter  |  Obj Val   | Step Size | Rel Diff  |   Time \n');
 
 if options.Lest     == 1                    % Estimate Lipschitz Constant
@@ -59,22 +58,7 @@ for iter                = 1:options.Miter
     
     diffx               = x_nxt - x;
     
-    % solution value stop-criterion    
-    nrm_dx              = norm(diffx);
-    rdiff               = nrm_dx / max(1.0, norm(x)); 
-    hist.err(iter, 1)   = rdiff;
-    hist.f(iter)        = -sum(log(denom));
-    hist.cumul_time(iter+1) = toc(time1);
-    
-    % Check the stopping criterion.
-    if (rdiff           <= tols.main) && iter > 1
-        hist.msg        = 'Convergence achieved!';
-        fprintf(' %4d  | %3.3e | %3.3e | %3.3e | %3.3e \n',...
-            iter, hist.f(iter), s, rdiff, hist.cumul_time(iter+1));
-        break;
-    end
-    
-     % Compute a step-size if required.
+    % Compute a step-size if required.
     if ~s_deactive
         Hd              = Hopr(diffx);
         dHd             = diffx' * Hd;
@@ -84,9 +68,24 @@ for iter                = 1:options.Miter
     if (1-s <= tols.steps), s = 1; s_deactive = 1; end                    
     x                   = x + s * diffx;
     
+    % solution value stop-criterion    
+    nrm_dx              = norm(diffx);
+    rdiff               = nrm_dx / max(1.0, norm(x)); 
+    hist.err(iter, 1)   = rdiff;
+    hist.f(iter)        = -sum(log(W*x));
+    hist.cumul_time(iter) = toc(time1);
+    
+    % Check the stopping criterion.
+    if (rdiff           <= tols.main) && iter > 1
+        hist.msg        = 'Convergence achieved!';
+        fprintf(' %4d  | %3.3e | %3.3e | %3.3e | %3.3e \n',...
+            iter, hist.f(iter), s, rdiff, hist.cumul_time(iter));
+        break;
+    end
+    
     if mod(iter, options.printst) == 0 || iter == 1
         fprintf(' %4d  | %3.3e | %3.3e | %3.3e | %3.3e \n',...
-            iter, hist.f(iter), s, rdiff, hist.cumul_time(iter+1));
+            iter, hist.f(iter), s, rdiff, hist.cumul_time(iter));
     end
   
 end

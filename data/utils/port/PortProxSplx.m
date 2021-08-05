@@ -1,4 +1,4 @@
-function x      = fn_portf_proxsplx(y)
+function x      = PortProxSplx(y)
 
 m               = length(y);
 bget            = false;

@@ -1,4 +1,4 @@
-function gx = LogisticG(data,x)
+function gx = LogRegG(data,x)
 y = data.y;
 A = data.X;
 n = size(y,1);

@@ -23,4 +23,3 @@ lambda = sqrt((d.*WymWx0)'*WymWx0);
 end
 
 
-

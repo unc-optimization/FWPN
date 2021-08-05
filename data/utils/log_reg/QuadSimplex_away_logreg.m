@@ -1,4 +1,4 @@
-function [y, test] = QuadSimplex_logistic_simplex1(q, W, tempt, d, C, y0, tol, max_iter)
+function [y, test] = QuadSimplex_away_logreg(q, W, tempt, d, C, y0, tol, max_iter)
 %% This function Use Conditional Gradient Away Method to solve problem of
 %%   min 1/2*(xT WTdiag(d)W x) + qTx + 1/2*xTC*x
 %%   s.t. x in Simplex
